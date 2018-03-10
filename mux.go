@@ -1,4 +1,4 @@
-// A method-aware HTTP router based on net/http.
+// Package methodmux provides a method-aware HTTP router based on net/http.
 package methodmux // import "github.com/pierreprinetti/go-methodmux"
 
 import (
@@ -13,7 +13,7 @@ var (
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 	})
 
-	// NotFound is a http.Handler that replies to the request with
+	// NotFoundHandler is a http.Handler that replies to the request with
 	// an HTTP 404 "Not Found" error.
 	NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
