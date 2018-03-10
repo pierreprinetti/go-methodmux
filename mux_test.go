@@ -83,6 +83,8 @@ func TestServe(t *testing.T) {
 		{"POST", "example.com", "/get-only", 405, ""},
 		{"PATCH", "example.com", "/get-only", 405, ""},
 
+		{"MYMETHOD", "example.com", "/dir/", 413, "/dir/"},
+
 		// The /foo -> /foo/ redirect applies to CONNECT requests
 		// but the path canonicalization does not.
 		{"CONNECT", "example.com", "/dir", 301, "/dir/"},
@@ -111,6 +113,7 @@ func TestServe(t *testing.T) {
 		{"PATCH", "sub.example.com/", serve(416)},
 		{"CONNECT", "/dir/", serve(200)},
 		{"CONNECT", "/search", serve(201)},
+		{"MYMETHOD", "/dir/", serve(413)},
 	}
 
 	for _, tc := range testCases {

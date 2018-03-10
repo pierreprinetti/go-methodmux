@@ -33,9 +33,8 @@ import (
 func main() {
 	mux := methodmux.New()
 
-	getHandler := myNewGetHandler()
-
 	mux.Handle(http.MethodGet, "/some-endpoint/", getHandler)
+	mux.Handle("MYMETHOD", "/some-endpoint/", myMethodHandler)
 	mux.HandleFunc(http.MethodPost, "/some-endpoint/", func(rw http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(rw, "Hi! This the response to a POST call.")
 	})
