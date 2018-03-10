@@ -22,10 +22,18 @@ Methodmux has been written with readability in mind and is just as fast and effi
 ## Usage
 
 ```Go
+package main
+
+import (
+	"net/http"
+
+	methodmux "github.com/pierreprinetti/go-methodmux"
+)
+
 func main() {
 	mux := methodmux.New()
 
-  getHandler := myNewGetHandler()
+	getHandler := myNewGetHandler()
 
 	mux.Handle(http.MethodGet, "/some-endpoint/", getHandler)
 	mux.HandleFunc(http.MethodPost, "/some-endpoint/", func(rw http.ResponseWriter, req *http.Request) {

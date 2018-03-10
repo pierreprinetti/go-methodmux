@@ -1,4 +1,43 @@
-// Package methodmux provides a method-aware HTTP router based on net/http.
+/*
+Package methodmux provides a method-aware HTTP router based on net/http.
+
+Example usage:
+
+	package main
+
+	import (
+		"net/http"
+
+		methodmux "github.com/pierreprinetti/go-methodmux"
+	)
+
+	func main() {
+		mux := methodmux.New()
+
+		getHandler := myNewGetHandler()
+
+		mux.Handle(http.MethodGet, "/some-endpoint/", getHandler)
+		mux.HandleFunc(http.MethodPost, "/some-endpoint/", func(rw http.ResponseWriter, req *http.Request) {
+			fmt.Fprintf(rw, "Hi! This the response to a POST call.")
+		})
+
+		srv := &http.Server{
+			Handler:        mux,
+			ReadTimeout:    10 * time.Second,
+			WriteTimeout:   10 * time.Second,
+			MaxHeaderBytes: 1 << 20,
+		}
+
+		log.Fatal(srv.ListenAndServe())
+	}
+
+Methodmux exposes a single type: `ServeMux`. `ServeMux` holds a separate `http.ServeMux` for every HTTP verb an http.Handler has been registered to.
+
+Every new request will be matched against the underlying `http.ServeMux` that corresponds to the HTTP method of the request.
+If no match is found, `ServeMux` will look for a match in the other HTTP verbs. If a match is found, an HTTP code 405 "Method Not Allowed" is returned. If not, an HTTP code 404 "Not Found" is returned.
+
+Methodmux has been written with readability in mind and is just as fast and efficient as `net/http` is.
+*/
 package methodmux // import "github.com/pierreprinetti/go-methodmux"
 
 import (
